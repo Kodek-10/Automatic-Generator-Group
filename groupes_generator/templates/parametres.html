@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Paramètres de répartition</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="taille_groupe" class="form-label">Taille des groupes</label>
+                    <input type="number" class="form-control" id="taille_groupe" name="taille_groupe" 
+                           min="2" max="20" value="2" required>
+                    <div class="form-text">Nombre d'étudiants par groupe (minimum 2)</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="min_garcons" class="form-label">Garçons par groupe</label>
+                    <input type="number" class="form-control" id="min_garcons" name="min_garcons" 
+                           min="0" max="50" value="1" required>
+                    <div class="form-text">Nombre minimum de garçons par groupe</div>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label class="form-label">Type de répartition</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="type_repartition" 
+                           id="aleatoire" value="aleatoire" checked>
+                    <label class="form-check-label" for="aleatoire">
+                        Aléatoire
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="type_repartition" 
+                           id="niveau" value="niveau">
+                    <label class="form-check-label" for="niveau">
+                        Par niveau (répartition équilibrée)
+                    </label>
+                </div>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary me-md-2">
+                    <i class="bi bi-arrow-left"></i> Annuler
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-people-fill"></i> Générer les groupes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Générateur Automatique de Groupes</h2>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Choix d'entrée de données</h4>
+        <p class="card-text">Sélectionnez comment vous souhaitez fournir la liste des étudiants :</p>
+        
+        <form method="POST" action="{{ url_for('choisir_entree') }}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Saisie manuelle</h5>
+                            <p class="card-text">Entrez les noms des étudiants un par un</p>
+                            <button type="submit" name="choix_entree" value="saisie" class="btn btn-primary">
+                                Choisir cette option
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Import de fichier</h5>
+                            <p class="card-text">Importez un fichier Excel existant</p>
+                            <button type="submit" name="choix_entree" value="import" class="btn btn-primary">
+                                Choisir cette option
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

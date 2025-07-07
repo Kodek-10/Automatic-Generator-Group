@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Résultats de la répartition</h2>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-success">
+            <h5 class="alert-heading">Groupes formés avec succès !</h5>
+            <p>
+                Répartition <strong>{{ type_repartition }}</strong> - 
+                {{ groupes|length }} groupes de {{ taille_groupe }} étudiants en moyenne - 
+                Minimum {{ min_garcons }} garçon(s) par groupe
+            </p>
+        </div>
+        
+        <div class="accordion mb-4" id="groupesAccordion">
+            {% for groupe in groupes %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ loop.index }}">
+                    <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" 
+                            type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#collapse{{ loop.index }}" 
+                            aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" 
+                            aria-controls="collapse{{ loop.index }}">
+                        Groupe {{ loop.index }} ({{ groupe|length }} étudiants)
+                        <span class="badge bg-secondary ms-2">
+                            {{ groupe|selectattr('2', 'equalto', 'M')|list|length }} garçons
+                        </span>
+                        <span class="badge bg-danger ms-2">
+                            {{ groupe|selectattr('2', 'equalto', 'F')|list|length }} filles
+                        </span>
+                    </button>
+                </h2>
+                <div id="collapse{{ loop.index }}" 
+                     class="accordion-collapse collapse {% if loop.first %}show{% endif %}" 
+                     aria-labelledby="heading{{ loop.index }}" 
+                     data-bs-parent="#groupesAccordion">
+                    <div class="accordion-body">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Genre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for etudiant in groupe %}
+                                <tr>
+                                    <td>{{ etudiant[0] }}</td>
+                                    <td>{{ etudiant[1] }}</td>
+                                    <td>
+                                        {% if etudiant[2] == 'M' %}
+                                            <span class="badge bg-primary">Masculin</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Féminin</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <a href="{{ url_for('parametres_repartition') }}" class="btn btn-secondary me-md-2">
+                <i class="bi bi-arrow-left"></i> Modifier les paramètres
+            </a>
+            <a href="{{ url_for('exporter') }}" class="btn btn-success me-md-2">
+                <i class="bi bi-file-excel"></i> Exporter en Excel
+            </a>
+            <a href="{{ url_for('recommencer') }}" class="btn btn-primary">
+                <i class="bi bi-arrow-repeat"></i> Nouvelle répartition
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

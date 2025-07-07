@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Saisie des étudiants</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST" id="etudiantsForm">
+            <div id="etudiantsContainer">
+                <div class="row mb-3 etudiant-row">
+                    <div class="col-md-4">
+                        <label class="form-label">Nom</label>
+                        <input type="text" class="form-control" name="nom[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Prénom</label>
+                        <input type="text" class="form-control" name="prenom[]" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Genre</label>
+                        <select class="form-select" name="genre[]" required>
+                            <option value="M">Masculin</option>
+                            <option value="F">Féminin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger btn-remove" disabled>
+                            <i class="bi bi-trash"></i> Supprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <button type="button" id="addEtudiant" class="btn btn-success">
+                    <i class="bi bi-plus"></i> Ajouter un étudiant
+                </button>
+                <button type="submit" class="btn btn-primary float-end">
+                    <i class="bi bi-arrow-right"></i> Continuer
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('etudiantsContainer');
+    const addButton = document.getElementById('addEtudiant');
+    
+    addButton.addEventListener('click', function() {
+        const newRow = document.querySelector('.etudiant-row').cloneNode(true);
+        const inputs = newRow.querySelectorAll('input, select');
+        
+        // Réinitialiser les valeurs
+        inputs.forEach(input => {
+            if (input.tagName === 'INPUT') input.value = '';
+            if (input.tagName === 'SELECT') input.selectedIndex = 0;
+        });
+        
+        // Activer le bouton supprimer
+        newRow.querySelector('.btn-remove').disabled = false;
+        
+        container.appendChild(newRow);
+        
+        // Activer tous les boutons supprimer sauf le premier
+        const removeButtons = document.querySelectorAll('.btn-remove');
+        if (removeButtons.length > 1) {
+            removeButtons[0].disabled = false;
+        }
+    });
+    
+    // Gestion de la suppression
+    container.addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-remove') || e.target.closest('.btn-remove')) {
+            const row = e.target.closest('.etudiant-row');
+            if (document.querySelectorAll('.etudiant-row').length > 1) {
+                row.remove();
+                
+                // Désactiver le bouton supprimer du premier si un seul reste
+                const rows = document.querySelectorAll('.etudiant-row');
+                if (rows.length === 1) {
+                    rows[0].querySelector('.btn-remove').disabled = true;
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

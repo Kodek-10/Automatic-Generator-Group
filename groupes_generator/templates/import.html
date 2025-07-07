@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Importer un fichier Excel</h2>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info">
+            <h5 class="alert-heading">Format du fichier attendu :</h5>
+            <p>Le fichier Excel doit contenir au moins 3 colonnes :</p>
+            <ol>
+                <li>Nom (obligatoire)</li>
+                <li>Prénom (optionnel)</li>
+                <li>Genre (M/F, optionnel - M par défaut)</li>
+            </ol>
+            <p class="mb-0">La première ligne est considérée comme en-tête.</p>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="fichier" class="form-label">Fichier Excel</label>
+                <input class="form-control" type="file" id="fichier" name="fichier" accept=".xlsx,.xls" required>
+                <div class="form-text">Formats acceptés : .xlsx, .xls</div>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary me-md-2">
+                    <i class="bi bi-arrow-left"></i> Retour
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-upload"></i> Importer
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
